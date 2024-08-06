@@ -4,8 +4,6 @@ const builder = require('role.builder');
 
 const structSpawn = require('struct.spawn');
 
-const stage = require('stages');
-
 // TODO:
 // - better source choosing behavior
 // - tower behavior (repairs and attack)

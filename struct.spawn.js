@@ -1,3 +1,5 @@
+const stage = require('stages');
+
 let structSpawn = {
 
     run: function(spawn) {
