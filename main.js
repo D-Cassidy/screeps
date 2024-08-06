@@ -2,8 +2,8 @@ const harvester = require('role.harvester');
 const upgrader = require('role.upgrader');
 
 // TODO:
-// - Automatic drone construction
-// - Role deliberation
+// - better source choosing behavior
+// - role.builder
 
 module.exports.loop = function () {
     // keeps count of roles for automatic construction
