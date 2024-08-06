@@ -8,7 +8,7 @@ let roleHarvester = {
             if (creep.store.getFreeCapacity(RESOURCE_ENERGY) <= 0) {
                 creep.memory.working = true;
             }
-            else { harvest(creep); }
+            else { this.harvest(creep); }
         }
 
         // If working == true, get to work
@@ -28,13 +28,13 @@ let roleHarvester = {
                 creep.moveTo(target);
             }
         }
-    }
-};
+    },
 
-function harvest(creep) {
-    let source = creep.pos.findClosestByPath(FIND_SOURCES);
-    if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(source);
+    harvest: function(creep) {
+        let source = creep.pos.findClosestByPath(FIND_SOURCES);
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
+        }
     }
 };
 
