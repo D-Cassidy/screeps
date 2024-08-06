@@ -49,7 +49,7 @@ module.exports.loop = function () {
 
     // struct behavior
     for (let structId in Game.structures) {
-        let struct = Game.structures(structId);
+        let struct = Game.structures[structId];
 
         // run tower
         if (struct.structureType == STRUCTURE_TOWER) {
