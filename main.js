@@ -29,9 +29,9 @@ module.exports.loop = function () {
 
         if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) > 300) {
             let roleName = '';
-            if (roleCount['harvester'] < 2) { roleName = 'harvester'; }
-            else if (roleCount['upgrader'] < 2) { roleName = 'upgrader'; }
-            else { roleName = 'harvester'; }
+            if (roleCount['harvester'] < 4) { roleName = 'harvester'; }
+            else if (roleCount['upgrader'] < 4) { roleName = 'upgrader'; }
+            else { break; }
             
             let creepName = getCreepName(roleName);
             spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], creepName, {
