@@ -31,5 +31,5 @@ module.exports.loop = function () {
 }
 
 function getCreepName(role) {
-    return (`Drone-${role[0].toUpperCase()}${Game.time%1000}`);
+    return (`DRONE-${role[0].toUpperCase()}${Game.time%1000}`);
 }
