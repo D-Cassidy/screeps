@@ -4,6 +4,8 @@ const builder = require('role.builder');
 
 const structSpawn = require('struct.spawn');
 
+const stage = require('stages');
+
 // TODO:
 // - better source choosing behavior
 // - tower behavior (repairs and attack)
@@ -35,9 +37,9 @@ module.exports.loop = function () {
         if (!spawn.memory) {spawn.memory = {}}
         if (!spawn.memory.roles) {
             spawn.memory.roles = {}
-            spawn.memory.roles['harvester'] = Game.creeps.filter((c) => c.memory.role == 'harvester' && c.memory.home == spawn.name);
-            spawn.memory.roles['upgrader'] = Game.creeps.filter((c) => c.memory.role == 'upgrader' && c.memory.home == spawn.name);
-            spawn.memory.roles['builder'] = Game.creeps.fitler((c) => c.memory.role == 'builder' && c.memory.home == spawn.name);
+            spawn.memory.roles['harvester'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'harvester' && c.memory.home == spawn.name);
+            spawn.memory.roles['upgrader'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'upgrader' && c.memory.home == spawn.name);
+            spawn.memory.roles['builder'] = Object.values(Game.creeps).fitler((c) => c.memory.role == 'builder' && c.memory.home == spawn.name);
         }
 
         // run
