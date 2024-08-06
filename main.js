@@ -3,7 +3,6 @@ var roleHarvester = require('role.harvester');
 // TODO:
 // - Automatic drone construction
 // - Role deliberation
-// - Harvester role 
 // - Upgrader role
 
 module.exports.loop = function () {
