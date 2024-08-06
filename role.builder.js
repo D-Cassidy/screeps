@@ -18,7 +18,7 @@ let roleBuilder = {
             }
             
             let constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if (!constructionSites) {
+            if (constructionSites.length <= 0) {
                 upgrader.run(creep);
                 return;
             }
