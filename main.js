@@ -27,7 +27,7 @@ module.exports.loop = function () {
     for (let spawnName in Game.spawns) {
         let spawn = Game.spawns[spawnName];
 
-        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) > 300) {
+        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) >= 300) {
             let roleName = '';
             if (roleCount['harvester'] < 4) { roleName = 'harvester'; }
             else if (roleCount['upgrader'] < 4) { roleName = 'upgrader'; }
