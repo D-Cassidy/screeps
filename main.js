@@ -1,21 +1,38 @@
-var roleHarvester = require('role.harvester');
+const harvester = require('role.harvester');
+const upgrader = require('role.upgrader');
 
 // TODO:
 // - Automatic drone construction
 // - Role deliberation
 
 module.exports.loop = function () {
+    // keeps count of roles for automatic construction
+    let roleCount = {
+        'harvester':0,
+        'upgrader':0
+    };
+
+    // memory cleaning
     for (let creepName in Memory.creeps) {
         if (!Game.creeps[creepName]) {
             delete Memory.creeps[creepName];
+            break;
         }
+
+        let role = Memory.creeps[creepName].role;
+        roleCount[role] = roleCount[role]+1;
     }
 
+    // spawn behavior 
     for (let spawnName in Game.spawns) {
         let spawn = Game.spawns[spawnName];
 
-        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) > 250) {
-            let roleName = 'harvester';
+        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) > 300) {
+            let roleName = '';
+            if (roleCount['harvester'] < 2) { roleName = 'harvester'; }
+            else if (roleCount['upgrader'] < 2) { roleName = 'upgrader'; }
+            else { roleName = 'harvester'; }
+            
             let creepName = getCreepName(roleName);
             spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], creepName, {
                 memory: {
@@ -27,9 +44,13 @@ module.exports.loop = function () {
         }
     }
 
+    // creep behavior
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
-        roleHarvester.run(creep);
+
+        let role = creep.memory.role;
+        if (role == 'harvester') { harvester.run(creep); }
+        else if (role == 'upgrader') {upgrader.run(creep); }
     }
 }
 
