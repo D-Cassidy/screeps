@@ -5,9 +5,13 @@ let roleHarvester = {
 
         // If working == false, fill up with energy
         if (!working) {
+            if (creep.store.getFreeCapacity(RESOURCE_ENERGY) <= 0) {
+                creep.memory.working = true;
+            }
+
             let source = creep.pos.findClosestByPath(FIND_SOURCES);
-            if (creep.harvest(source[0]) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source[0]);
+            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(source);
             }
         }
 
