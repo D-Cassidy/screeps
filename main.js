@@ -4,7 +4,9 @@ const builder = require('role.builder');
 
 // TODO:
 // - better source choosing behavior
-// - role.builder
+// - tower behavior (repairs and attack)
+// - harvester transfer to extensions
+// - spawn calculates creep body based on room capacity
 
 module.exports.loop = function () {
     // mem check
@@ -14,38 +16,39 @@ module.exports.loop = function () {
     // memory cleaning
     for (let creepName in Memory.creeps) {
         if (!Game.creeps[creepName]) {
+            let creepHome = Game.creeps[creepName].home;
+            Memory.spawns[creepHome].roles = Memory.spawns[creepHome]-1 || 0;
             delete Memory.creeps[creepName];
         }
     }
 
-    let roleCount = {};
-    for (let name in Game.creeps) {
-        let role = Game.creeps[name].memory.role;
-        roleCount[role] = roleCount[role]+1 || 1;
-    }
-   
     // spawn behavior 
     for (let spawnName in Game.spawns) {
+        // access relevant memory
         let spawn = Game.spawns[spawnName];
         if (!Memory.spawns[spawnName]) {
             Memory.spawns[spawnName];
         }
+        let roles = Memory.spawns[spawnName].roles;
 
-        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) >= 300) {
-            let roleName = '';
-            if (roleCount['harvester'] < 2) { roleName = 'harvester'; }
-            else if (roleCount['upgrader'] < 2) { roleName = 'upgrader'; }
-            else if (roleCount['builder'] < 4) { roleName = 'builder'; }
-            else { break; }
-            
-            let creepName = getCreepName(roleName);
-            spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], creepName, {
-                memory: {
-                    role: roleName,
-                    working: true,
-                    home: spawnName
-               }
-            });
+        let roleName = '';
+        if (roles['harvester'] < 2) { roleName = 'harvester'; }
+        else if (roles['upgrader'] < 2) { roleName = 'upgrader'; }
+        else if (roles['builder'] < 4) { roleName = 'builder'; }
+        else { break; }
+        
+        let creepName = getCreepName(roleName);
+        if (spawn.spawnCreep(
+            [WORK, CARRY, CARRY, MOVE, MOVE], 
+            creepName,
+            {memory: {
+                role: roleName,
+                working: true,
+                home: spawnName
+            }}
+            ) == OK) {
+            if (!Memory.spawns[spawnName].roles) { Memory.spawns[spawnName].roles = {}; }
+            Memory.spawns[spawnName].roles[roleName] = Memory.spawns[spawnName].roles[roleName] + 1 || 1;
         }
     }
 
