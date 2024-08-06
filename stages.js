@@ -18,7 +18,7 @@ let stages = [
 
             let structs = spawn.room.find(FIND_MY_STRUCTURES);
             if (spawn.room.controller.level >= 2
-                && spawn.room.find(FIND_MY_STRUCTURES).filter((struct) => 
+                && structs.filter((struct) => 
                     struct.structureType == STRUCTURE_EXTENSION).length >= 5
             ) {
                 spawn.memory.stage = spawn.memory.stage+1;
@@ -44,6 +44,8 @@ let stages = [
                     struct.structureType == STRUCTURE_EXTENSION).length >= 10
                 && structs.filter((struct) =>
                     struct.structureType == STRUCTURE_TOWER).length >= 1
+                && structs.filter((struct) => 
+                    struct.structureType == STRUCTURE_CONTAINER).length >= 2
             ) {
                 spawn.memory.stage = spawn.memory.stage; // STAYS THE SAME SINCE THERE ARE NO FUTURE STAGES
             }
