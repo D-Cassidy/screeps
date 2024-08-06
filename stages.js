@@ -50,6 +50,23 @@ let stages = [
                 spawn.memory.stage = spawn.memory.stage; // STAYS THE SAME SINCE THERE ARE NO FUTURE STAGES
             }
         }
+    },
+
+    // stage 3
+    {
+        roles: {
+            'miner':2,
+            'harvester':1,
+            'upgrader':2,
+            'builder':2
+        },
+
+        bodyTemplates: {
+            'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
+            'harvester': [CARRY, MOVE],
+            'upgrader': [WORK, CARRY, MOVE],
+            'builder': [WORK, CARRY, MOVE]
+        }
     }
 ];
 
