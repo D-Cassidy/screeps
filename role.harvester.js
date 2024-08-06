@@ -17,9 +17,13 @@ let roleHarvester = {
                 creep.memory.working = false;
             }
 
-            let spawn = Game.spawns[creep.memory.home];
-            if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(spawn);
+            let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) => {
+                struct.structureType == STRUCTURE_EXTENSION
+                || struct.structureType == STRUCTURE_SPAWN;
+            });
+            let target = creep.pos.findClosestByPath(transferrableStructures);
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
             }
         }
     }
