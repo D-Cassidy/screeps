@@ -5,7 +5,6 @@ const builder = require('role.builder');
 // TODO:
 // - better source choosing behavior
 // - tower behavior (repairs and attack)
-// - harvester transfer to extensions
 // - spawn calculates creep body based on room capacity
 
 module.exports.loop = function () {
@@ -43,8 +42,9 @@ module.exports.loop = function () {
         else { break; }
         
         let creepName = getCreepName(roleName);
+        let body = getBody(spawn);
         if (spawn.spawnCreep(
-            [WORK, CARRY, CARRY, MOVE, MOVE], 
+            body,
             creepName,
             {memory: {
                 role: roleName,
@@ -70,4 +70,18 @@ module.exports.loop = function () {
 
 function getCreepName(role) {
     return (`DRONE-${role[0].toUpperCase()}${Game.time%1000}`);
+}
+
+function getBody(spawn) {
+    let energyAvailable = spawn.room.energyAvailable;
+    let bodyTemplate = [WORK, CARRY, MOVE];
+    let bodyCost = 200;
+
+    let body =[];
+    let n = Math.floor(energyAvailable / bodyCost);
+    for (let i=0; i<n; i++) {
+        body = body.concat(bodyTemplate);
+    }
+
+    return body;
 }
