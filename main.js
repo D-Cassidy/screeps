@@ -3,9 +3,13 @@ var roleHarvester = require('role.harvester');
 // TODO:
 // - Automatic drone construction
 // - Role deliberation
-// - Upgrader role
 
 module.exports.loop = function () {
+    for (let creepName in Memory.creeps) {
+        if (!Game.creeps[creepName]) {
+            delete Memory.creeps[creepName];
+        }
+    }
 
     for (let spawnName in Game.spawns) {
         let spawn = Game.spawns[spawnName];
@@ -13,7 +17,7 @@ module.exports.loop = function () {
         if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) > 250) {
             let roleName = 'harvester';
             let creepName = getCreepName(roleName);
-            spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], creepName, {
+            spawn.spawnCreep([WORK, CARRY, CARRY, MOVE, MOVE], creepName, {
                 memory: {
                     role: roleName,
                     working: true,
