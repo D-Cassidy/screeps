@@ -1,6 +1,7 @@
 let roleHarvester = {
 
     run: function(creep) {
+        let working = creep.memory.working;
 
         // If working == false, fill up with energy
         if (!working) {
