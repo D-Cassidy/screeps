@@ -17,10 +17,12 @@ let roleHarvester = {
                 creep.memory.working = false;
             }
 
-            let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) => {
-                struct.structureType == STRUCTURE_EXTENSION
-                || struct.structureType == STRUCTURE_SPAWN;
-            });
+            // find structures that are either extensions or spawns and have space for more energy
+            let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) =>
+                (struct.structureType == STRUCTURE_EXTENSION
+                || struct.structureType == STRUCTURE_SPAWN)
+                && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+            );
             let target = creep.pos.findClosestByPath(transferrableStructures);
             if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
