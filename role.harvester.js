@@ -13,7 +13,7 @@ let roleHarvester = {
 
         // If working == true, get to work
         else {
-            if (creep.getUsedCapacity(RESOURCE_ENERGY) <= 0) {
+            if (creep.store.getUsedCapacity(RESOURCE_ENERGY) <= 0) {
                 creep.memory.working = false;
             }
 
