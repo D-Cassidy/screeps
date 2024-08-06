@@ -16,19 +16,6 @@ module.exports.loop = function () {
     if (!Memory.creeps) { Memory.creeps = {}; }
     if (!Memory.spawns) { Memory.spawns = {}; }
 
-    // mem cleaning
-    for (let creepName in Memory.creeps) {
-        if (!Game.creeps[creepName]) {
-            // adjust role count in spawn memory
-            let creepMem = Memory.creeps[creepName];
-            let spawnMem = Memory.spawns[creepMem.home];
-            spawnMem.roles[creepMem.role] = spawnMem.roles[creepMem.role]-1 || 0;
-
-            // delete dead creep from memory
-            delete Memory.creeps[creepName];
-        }
-    }
-
     // spawn behavior 
     for (let spawnName in Game.spawns) {
         let spawn = Game.spawns[spawnName];
@@ -44,6 +31,19 @@ module.exports.loop = function () {
 
         // run
         structSpawn.run(spawn);
+    }
+
+    // mem cleaning
+    for (let creepName in Memory.creeps) {
+        if (!Game.creeps[creepName]) {
+            // adjust role count in spawn memory
+            let creepMem = Memory.creeps[creepName];
+            let spawnMem = Memory.spawns[creepMem.home];
+            spawnMem.roles[creepMem.role] = spawnMem.roles[creepMem.role]-1 || 0;
+
+            // delete dead creep from memory
+            delete Memory.creeps[creepName];
+        }
     }
 
     // creep behavior
