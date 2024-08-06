@@ -45,18 +45,10 @@ let stages = [
                 && structs.filter((struct) =>
                     struct.structureType == STRUCTURE_TOWER).length >= 1
             ) {
-                spawn.memory.stage = spawn.memory.stage+1;
+                spawn.memory.stage = spawn.memory.stage; // STAYS THE SAME SINCE THERE ARE NO FUTURE STAGES
             }
         }
-    },
-
-    // stage 3
-    {}, 
-    
-    // stage 4
-    {},
-
-    //stage 5
+    }
 ];
 
 module.exports = stages;
