@@ -56,7 +56,7 @@ let structSpawn = {
     },
 
     calculateBodyCost: function(body) {
-        costs = {WORK:100, MOVE:50, CARRY:50};
+        costs = {'work':100, 'move':50, 'carry':50};
 
         let len = body.length
         let cost = 0;
