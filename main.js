@@ -16,9 +16,12 @@ module.exports.loop = function () {
     // memory cleaning
     for (let creepName in Memory.creeps) {
         if (!Game.creeps[creepName]) {
+            // adjust role count in spawn memory
             let home = Memory.creeps[creepName].home;
             let role = Memory.creeps[creepName].role;
             Memory.spawns[home].roles[role] = Memory.spawns[home].roles[role]-1 || 0;
+
+            // delete dead creep from memory
             delete Memory.creeps[creepName];
         }
     }
@@ -48,7 +51,8 @@ module.exports.loop = function () {
                 working: true,
                 home: spawnName
             }}
-            ) == OK) {
+            ) == OK
+        ) {
             Memory.spawns[spawnName].roles[roleName] = Memory.spawns[spawnName].roles[roleName] + 1 || 1;
         }
     }
