@@ -7,27 +7,29 @@ const builder = require('role.builder');
 // - role.builder
 
 module.exports.loop = function () {
-    // keeps count of roles for automatic construction
-    let roleCount = {
-        'harvester':0,
-        'upgrader':0,
-        'builder':0
-    };
+    // mem check
+    if (!Memory.creeps) { Memory.creeps = {}; }
+    if (!Memory.spawns) { Memory.spawns = {}; }
 
     // memory cleaning
     for (let creepName in Memory.creeps) {
         if (!Game.creeps[creepName]) {
             delete Memory.creeps[creepName];
-            break;
         }
-
-        let role = Memory.creeps[creepName].role;
-        roleCount[role] = roleCount[role]+1;
     }
 
+    let roleCount = {};
+    for (let name in Game.creeps) {
+        let role = Game.creeps[name].memory.role;
+        roleCount[role] = roleCount[role]+1 || 1;
+    }
+   
     // spawn behavior 
     for (let spawnName in Game.spawns) {
         let spawn = Game.spawns[spawnName];
+        if (!Memory.spawns[spawnName]) {
+            Memory.spawns[spawnName];
+        }
 
         if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) >= 300) {
             let roleName = '';
