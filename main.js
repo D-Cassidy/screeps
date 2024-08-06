@@ -8,14 +8,18 @@ var roleHarvester = require('role.harvester');
 
 module.exports.loop = function () {
 
-    for (let name in Game.spawns) {
-        let spawn = Game.spawns[name];
+    for (let spawnName in Game.spawns) {
+        let spawn = Game.spawns[spawnName];
 
         if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) < 250) {
             let roleName = 'harvester';
             let creepName = getCreepName(roleName);
             spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], creepName, {
-                memory: {role: roleName}
+                memory: {
+                    role: roleName,
+                    working: true,
+                    home: spawnName
+               }
             });
         }
     }
