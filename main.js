@@ -2,6 +2,8 @@ const harvester = require('role.harvester');
 const upgrader = require('role.upgrader');
 const builder = require('role.builder');
 
+const structSpawn = require('struct.spawn');
+
 const stage = require('stages');
 
 // TODO:
@@ -14,7 +16,7 @@ module.exports.loop = function () {
     if (!Memory.creeps) { Memory.creeps = {}; }
     if (!Memory.spawns) { Memory.spawns = {}; }
 
-    // memory cleaning
+    // mem cleaning
     for (let creepName in Memory.creeps) {
         if (!Game.creeps[creepName]) {
             // adjust role count in spawn memory
@@ -29,84 +31,35 @@ module.exports.loop = function () {
 
     // spawn behavior 
     for (let spawnName in Game.spawns) {
-        // access relevant memory
         let spawn = Game.spawns[spawnName];
-        if (!spawn.memory) {
-            spawn.memory = {};
-            spawn.memory.roles = {};
+
+        // mem check
+        if (!spawn.memory) {spawn.memory = {}}
+        if (!spawn.memory.roles) {
+            spawn.memory.roles = {}
+            spawn.memory.roles['harvester'] = Game.creeps.filter((c) => c.memory.role == 'harvester' && c.memory.home == spawn.name);
+            spawn.memory.roles['upgrader'] = Game.creeps.filter((c) => c.memory.role == 'upgrader' && c.memory.home == spawn.name);
+            spawn.memory.roles['builder'] = Game.creeps.fitler((c) => c.memory.role == 'builder' && c.memory.home == spawn.name);
         }
 
-        let roles = spawn.memory.roles;
-        let stageNo = spawn.memory.stage || 1;
-        stage[stageNo].checkStage(spawn);
-
-        // check which creeps need spawning
-        let roleName = '';
-        if (roles['harvester'] < stage[stageNo].roles['harvester']) { 
-            roleName = 'harvester'; 
-        }
-        else if (roles['upgrader'] < stage[stageNo].roles['upgrader']) { 
-            roleName = 'upgrader'; 
-        }
-        else if (roles['builder'] < stage[stageNo].roles['builder']) { 
-            roleName = 'builder'; 
-        }
-        else { break; }
-        
-        // spawn creeps
-        let creepName = getCreepName(roleName);
-        let body = getBody(spawn);
-        if (spawn.spawnCreep(
-            body,
-            creepName,
-            {memory: {
-                role: roleName,
-                working: true,
-                home: spawnName
-            }}
-            ) == OK
-        ) {
-            roles[roleName] = roles[roleName]+1 || 1;
-        }
+        // run
+        structSpawn.run(spawn);
     }
 
     // creep behavior
     for (let name in Game.creeps) {
         let creep = Game.creeps[name];
 
+        // mem check
+        if (!creep.memory) {creep.memory = {}}
+        if (!creep.memory.working) {creep.memory.working = false}
+        if (!creep.memory.home) {creep.suicide()}
+        if (!creep.memory.role) {creep.suicide()}
+
+        // run based on assigned role
         let role = creep.memory.role;
         if (role == 'harvester') { harvester.run(creep); }
         else if (role == 'upgrader') { upgrader.run(creep); }
         else if (role == 'builder') { builder.run(creep); }
     }
-}
-
-function getCreepName(role) {
-    return (`DRONE-${role[0].toUpperCase()}${Game.time%1000}`);
-}
-
-function getBody(spawn) {
-    let energyAvailable = spawn.room.energyAvailable;
-    let bodyTemplate = stage[spawn.memory.stage].bodyTemplate;
-    let bodyCost = calculateBodyCost(bodyTemplate);
-
-    let body =[];
-    let n = Math.floor(energyAvailable / bodyCost);
-    for (let i=0; i<n; i++) {
-        body = body.concat(bodyTemplate);
-    }
-
-    return body;
-}
-
-function calculateBodyCost(body) {
-    costs = {WORK:100, MOVE:50, CARRY:50};
-
-    let len = body.length
-    let cost = 0;
-    for (let i=0; i<len; i++) {
-        cost = cost + costs[body[i]];
-    }
-
-    return cost;
 }
