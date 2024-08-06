@@ -24,9 +24,9 @@ module.exports.loop = function () {
         if (!spawn.memory) {spawn.memory = {}}
         if (!spawn.memory.roles) {
             spawn.memory.roles = {}
-            spawn.memory.roles['harvester'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'harvester' && c.memory.home == spawn.name);
-            spawn.memory.roles['upgrader'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'upgrader' && c.memory.home == spawn.name);
-            spawn.memory.roles['builder'] = Object.values(Game.creeps).fitler((c) => c.memory.role == 'builder' && c.memory.home == spawn.name);
+            spawn.memory.roles['harvester'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'harvester' && c.memory.home == spawn.name).length;
+            spawn.memory.roles['upgrader'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'upgrader' && c.memory.home == spawn.name).length;
+            spawn.memory.roles['builder'] = Object.values(Game.creeps).fitler((c) => c.memory.role == 'builder' && c.memory.home == spawn.name).length;
         }
 
         // run
