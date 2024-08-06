@@ -2,7 +2,7 @@ const harvester = require('role.harvester');
 const upgrader = require('role.upgrader');
 const builder = require('role.builder');
 
-const stage = require('stages.js');
+const stage = require('stages');
 
 // TODO:
 // - better source choosing behavior
@@ -37,7 +37,8 @@ module.exports.loop = function () {
         }
 
         let roles = spawn.memory.roles;
-        let stageNo = spawn.memroy.stage || 1;
+        let stageNo = spawn.memory.stage || 1;
+        stage[stageNo].checkStage(spawn);
 
         // check which creeps need spawning
         let roleName = '';
