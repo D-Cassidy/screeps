@@ -16,7 +16,7 @@ module.exports.loop = function () {
     // memory cleaning
     for (let creepName in Memory.creeps) {
         if (!Game.creeps[creepName]) {
-            let creepHome = Game.creeps[creepName].home;
+            let creepHome = Memory.creeps[creepName].home;
             Memory.spawns[creepHome].roles = Memory.spawns[creepHome]-1 || 0;
             delete Memory.creeps[creepName];
         }
