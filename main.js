@@ -18,7 +18,7 @@ module.exports.loop = function () {
         if (!Game.creeps[creepName]) {
             let home = Memory.creeps[creepName].home;
             let role = Memory.creeps[creepName].role;
-            Memory.spawns[home].roles[role] = Memory.spawns[home]-1 || 0;
+            Memory.spawns[home].roles[role] = Memory.spawns[home].roles[role]-1 || 0;
             delete Memory.creeps[creepName];
         }
     }
