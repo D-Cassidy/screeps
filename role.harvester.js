@@ -5,14 +5,7 @@ let roleHarvester = {
 
         // If working == false, fill up with energy
         if (!working) {
-            if (creep.store.getFreeCapacity(RESOURCE_ENERGY) <= 0) {
-                creep.memory.working = true;
-            }
-
-            let source = creep.pos.findClosestByPath(FIND_SOURCES);
-            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
-            }
+            harvest(creep);
         }
 
         // If working == true, get to work
@@ -25,6 +18,19 @@ let roleHarvester = {
             if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(spawn);
             }
+        }
+    }
+};
+
+function harvest(creep) {
+    if (!working) {
+        if (creep.store.getFreeCapacity(RESOURCE_ENERGY) <= 0) {
+            creep.memory.working = true;
+        }
+
+        let source = creep.pos.findClosestByPath(FIND_SOURCES);
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
         }
     }
 };
