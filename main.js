@@ -36,7 +36,7 @@ module.exports.loop = function () {
         let roleName = '';
         if (roles['harvester'] < 2) { roleName = 'harvester'; }
         else if (roles['upgrader'] < 2) { roleName = 'upgrader'; }
-        else if (roles['builder'] < 4) { roleName = 'builder'; }
+        else if (roles['builder'] < 6) { roleName = 'builder'; }
         else { break; }
         
         let creepName = getCreepName(roleName);
