@@ -27,7 +27,8 @@ module.exports.loop = function () {
         // access relevant memory
         let spawn = Game.spawns[spawnName];
         if (!Memory.spawns[spawnName]) {
-            Memory.spawns[spawnName];
+            Memory.spawns[spawnName] = {};
+            Memory.spawns[spawnName].roles = {};
         }
         let roles = Memory.spawns[spawnName].roles;
 
@@ -47,7 +48,6 @@ module.exports.loop = function () {
                 home: spawnName
             }}
             ) == OK) {
-            if (!Memory.spawns[spawnName].roles) { Memory.spawns[spawnName].roles = {}; }
             Memory.spawns[spawnName].roles[roleName] = Memory.spawns[spawnName].roles[roleName] + 1 || 1;
         }
     }
