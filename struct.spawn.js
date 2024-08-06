@@ -29,7 +29,7 @@ let structSpawn = {
             {memory: {
                 role: roleName,
                 working: true,
-                home: spawnName
+                home: spawn.name
             }}
             ) == OK
         ) {
