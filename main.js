@@ -11,7 +11,7 @@ module.exports.loop = function () {
     for (let spawnName in Game.spawns) {
         let spawn = Game.spawns[spawnName];
 
-        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) < 250) {
+        if (spawn.store.getUsedCapacity(RESOURCE_ENERGY) > 250) {
             let roleName = 'harvester';
             let creepName = getCreepName(roleName);
             spawn.spawnCreep([WORK, CARRY, MOVE, MOVE], creepName, {
