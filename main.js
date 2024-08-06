@@ -5,6 +5,7 @@ const builder = require('role.builder');
 const structSpawn = require('struct.spawn');
 
 const stage = require('stages');
+const structTower = require('struct.tower');
 
 // TODO:
 // - better source choosing behavior
@@ -29,7 +30,7 @@ module.exports.loop = function () {
             spawn.memory.roles['builder'] = Object.values(Game.creeps).filter((c) => c.memory.role == 'builder' && c.memory.home == spawn.name).length;
         }
 
-        // run
+        // run spawn
         structSpawn.run(spawn);
     }
 
@@ -43,6 +44,16 @@ module.exports.loop = function () {
 
             // delete dead creep from memory
             delete Memory.creeps[creepName];
+        }
+    }
+
+    // struct behavior
+    for (let structId in Game.structures) {
+        let struct = Game.structures(structId);
+
+        // run tower
+        if (struct.structureType == STRUCTURE_TOWER) {
+            structTower.run(struct);
         }
     }
 
