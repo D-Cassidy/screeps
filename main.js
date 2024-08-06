@@ -2,6 +2,8 @@ const harvester = require('role.harvester');
 const upgrader = require('role.upgrader');
 const builder = require('role.builder');
 
+const stage = require('stages.js');
+
 // TODO:
 // - better source choosing behavior
 // - tower behavior (repairs and attack)
@@ -29,18 +31,28 @@ module.exports.loop = function () {
     for (let spawnName in Game.spawns) {
         // access relevant memory
         let spawn = Game.spawns[spawnName];
-        if (!Memory.spawns[spawnName]) {
-            Memory.spawns[spawnName] = {};
-            Memory.spawns[spawnName].roles = {};
+        if (!spawn.memory) {
+            spawn.memory = {};
+            spawn.memory.roles = {};
         }
-        let roles = Memory.spawns[spawnName].roles;
 
+        let roles = spawn.memory.roles;
+        let stageNo = spawn.memroy.stage || 1;
+
+        // check which creeps need spawning
         let roleName = '';
-        if (roles['harvester'] < 2) { roleName = 'harvester'; }
-        else if (roles['upgrader'] < 2) { roleName = 'upgrader'; }
-        else if (roles['builder'] < 4) { roleName = 'builder'; }
+        if (roles['harvester'] < stage[stageNo].roles['harvester']) { 
+            roleName = 'harvester'; 
+        }
+        else if (roles['upgrader'] < stage[stageNo].roles['upgrader']) { 
+            roleName = 'upgrader'; 
+        }
+        else if (roles['builder'] < stage[stageNo].roles['builder']) { 
+            roleName = 'builder'; 
+        }
         else { break; }
         
+        // spawn creeps
         let creepName = getCreepName(roleName);
         let body = getBody(spawn);
         if (spawn.spawnCreep(
@@ -74,8 +86,8 @@ function getCreepName(role) {
 
 function getBody(spawn) {
     let energyAvailable = spawn.room.energyAvailable;
-    let bodyTemplate = [WORK, CARRY, MOVE];
-    let bodyCost = 200;
+    let bodyTemplate = stage[spawn.memory.stage].bodyTemplate;
+    let bodyCost = calculateBodyCost(bodyTemplate);
 
     let body =[];
     let n = Math.floor(energyAvailable / bodyCost);
@@ -84,4 +96,16 @@ function getBody(spawn) {
     }
 
     return body;
+}
+
+function calculateBodyCost(body) {
+    costs = {WORK:100, MOVE:50, CARRY:50};
+
+    let len = body.length
+    let cost = 0;
+    for (let i=0; i<len; i++) {
+        cost = cost + costs[body[i]];
+    }
+
+    return cost;
 }
