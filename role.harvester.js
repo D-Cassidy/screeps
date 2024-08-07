@@ -1,5 +1,9 @@
 let roleHarvester = {
 
+    // TODO:
+    // - Prioritize collecting from containers in harvest function
+    // - Prioritize transferring to extensions and spawns, then towers
+
     run: function(creep) {
         let working = creep.memory.working;
 
@@ -32,6 +36,18 @@ let roleHarvester = {
     },
 
     harvest: function(creep) {
+        let containers = creep.room.find(FIND_MY_STRUCTURES).filter((s) => 
+                s.structureType == STRUCTURE_CONTAINER
+                && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0 
+        );
+        if (containers) {
+            let target = creep.pos.findClosestByPath(containers);
+            if (creep.withdraw(target) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            }
+            return;
+        }
+
         let source = creep.pos.findClosestByPath(FIND_SOURCES);
         if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
