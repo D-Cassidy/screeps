@@ -64,7 +64,7 @@ let stages = [
         },
 
         bodyTemplate: {
-            'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
+            'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE],
             'harvester': [CARRY, CARRY, MOVE],
             'all': [WORK, CARRY, MOVE]
         },
