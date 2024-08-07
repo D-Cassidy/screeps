@@ -41,7 +41,7 @@ let roleHarvester = {
                 s.structureType == STRUCTURE_CONTAINER
                 && s.store.getUsedCapacity(RESOURCE_ENERGY) > 0 
         );
-        if (containers) {
+        if (containers.length > 0) {
             let target = creep.pos.findClosestByPath(containers);
             if (creep.withdraw(target) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
