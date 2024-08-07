@@ -58,9 +58,9 @@ let stages = [
     {
         roles: {
             'miner':2,
-            'harvester':2,
-            'upgrader':2,
-            'builder':4
+            'harvester':1,
+            'upgrader':1,
+            'builder':2
         },
 
         bodyTemplate: {
