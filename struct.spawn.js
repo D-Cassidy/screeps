@@ -12,7 +12,7 @@ let structSpawn = {
                         + stage[stageNo].roles['upgrader']
                         + stage[stageNo].roles['builder']
                         + stage[stageNo].roles['miner'];
-        if (Game.time % (Math.floor(1500/numCreeps)) != 0) {
+        if (Game.time % (Math.floor(1500/numCreeps)) > 10) {
             return;
         }
 
