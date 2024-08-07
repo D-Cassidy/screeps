@@ -22,7 +22,7 @@ let structSpawn = {
         
         // spawn creeps
         let creepName = this.getCreepName(roleName);
-        let body = this.getBody(spawn);
+        let body = this.getBody(spawn, roleName);
         if (spawn.spawnCreep(
             body,
             creepName,
@@ -43,7 +43,7 @@ let structSpawn = {
 
     getBody: function(spawn) {
         let energyAvailable = spawn.room.energyAvailable;
-        let bodyTemplate = stage[spawn.memory.stage].bodyTemplate;
+        let bodyTemplate = stage[spawn.memory.stage].bodyTemplate[roleName] || stage[spawn.memory.stage].bodyTemplate['all'];
         let bodyCost = this.calculateBodyCost(bodyTemplate);
 
         let body =[];

@@ -10,7 +10,7 @@ let stages = [
             'builder':6
         },
 
-        bodyTemplate: [WORK, CARRY, CARRY, MOVE, MOVE],
+        bodyTemplate: {'all':[WORK, CARRY, CARRY, MOVE, MOVE]},
         
         // Conditions for next stage: RCL 2 && 5 Extensions
         checkStage: function(spawn) {
@@ -34,7 +34,7 @@ let stages = [
             'builder':4
         },
 
-        bodyTemplate: [WORK, CARRY, MOVE],
+        bodyTemplate: {'all': [WORK, CARRY, MOVE]},
 
         // Conditions for next stage: RCL 3 && 10 Extensions && 1 Tower
         checkStage: function(spawn) {
@@ -63,9 +63,7 @@ let stages = [
 
         bodyTemplates: {
             'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
-            'harvester': [CARRY, MOVE],
-            'upgrader': [WORK, CARRY, MOVE],
-            'builder': [WORK, CARRY, MOVE]
+            'all': [WORK, CARRY, MOVE]
         }
     }
 ];
