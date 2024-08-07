@@ -18,6 +18,9 @@ let structSpawn = {
         else if (roles['builder'] < stage[stageNo].roles['builder']) { 
             roleName = 'builder'; 
         }
+        else if (roles['miner'] < stage[stageNo].roles['miner']) {
+            roleName = 'miner';
+        }
         else { return; }
         
         // spawn creeps

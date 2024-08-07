@@ -7,7 +7,8 @@ let stages = [
         roles: {
             'harvester':2,
             'upgrader':2,
-            'builder':6
+            'builder':6,
+            'miner': 0
         },
 
         bodyTemplate: {'all':[WORK, CARRY, CARRY, MOVE, MOVE]},
@@ -31,7 +32,8 @@ let stages = [
         roles: {
             'harvester':2,
             'upgrader':2,
-            'builder':4
+            'builder':4,
+            'miner': 0
         },
 
         bodyTemplate: {'all': [WORK, CARRY, MOVE]},
