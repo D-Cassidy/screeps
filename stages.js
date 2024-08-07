@@ -47,7 +47,7 @@ let stages = [
                 && structs.filter((struct) => 
                     struct.structureType == STRUCTURE_CONTAINER).length >= 2
             ) {
-                spawn.memory.stage = spawn.memory.stage; // STAYS THE SAME SINCE THERE ARE NO FUTURE STAGES
+                spawn.memory.stage = spawn.memory.stage+1; 
             }
         }
     },
@@ -63,7 +63,13 @@ let stages = [
 
         bodyTemplates: {
             'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
+            'harvester': [WORK, CARRY, CARRY, MOVE, MOVE],
             'all': [WORK, CARRY, MOVE]
+        },
+
+        // temp
+        checkStage: function(spawn) {
+            return;
         }
     }
 ];

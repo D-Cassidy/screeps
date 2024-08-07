@@ -3,7 +3,6 @@ const utility = require('./role.functions');
 let roleHarvester = {
 
     // TODO:
-    // - Prioritize collecting from containers in harvest function
     // - Prioritize transferring to extensions and spawns, then towers
 
     run: function(creep) {

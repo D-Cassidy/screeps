@@ -1,6 +1,7 @@
 const harvester = require('role.harvester');
 const upgrader = require('role.upgrader');
 const builder = require('role.builder');
+const miner = require('./role.miner');
 
 const structSpawn = require('struct.spawn');
 
@@ -9,8 +10,7 @@ const structTower = require('struct.tower');
 
 // TODO:
 // - better source choosing behavior
-// - tower behavior (repairs and attack)
-// - spawn calculates creep body based on room capacity
+// - overflow cost bodies, use full capacity of spawn
 
 module.exports.loop = function () {
     // mem check
@@ -72,5 +72,6 @@ module.exports.loop = function () {
         if (role == 'harvester') { harvester.run(creep); }
         else if (role == 'upgrader') { upgrader.run(creep); }
         else if (role == 'builder') { builder.run(creep); }
+        else if (role == 'miner') { miner.run(creep); }
     }
 }
