@@ -44,9 +44,9 @@ let structSpawn = {
         return (`DRONE-${role[0].toUpperCase()}${Game.time%1000}`);
     },
 
-    getBody: function(spawn) {
+    getBody: function(spawn, role) {
         let energyAvailable = spawn.room.energyAvailable;
-        let bodyTemplate = stage[spawn.memory.stage].bodyTemplate[roleName] || stage[spawn.memory.stage].bodyTemplate['all'];
+        let bodyTemplate = stage[spawn.memory.stage].bodyTemplate[role] || stage[spawn.memory.stage].bodyTemplate['all'];
         let bodyCost = this.calculateBodyCost(bodyTemplate);
 
         let body =[];
