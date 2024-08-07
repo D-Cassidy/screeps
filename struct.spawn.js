@@ -20,15 +20,15 @@ let structSpawn = {
         let roleName = '';
         if (roles['harvester'] < stage[stageNo].roles['harvester']) { 
             roleName = 'harvester'; 
+            }
+        else if (roles['miner'] < stage[stageNo].roles['miner']) {
+            roleName = 'miner';
         }
         else if (roles['upgrader'] < stage[stageNo].roles['upgrader']) { 
             roleName = 'upgrader'; 
         }
         else if (roles['builder'] < stage[stageNo].roles['builder']) { 
             roleName = 'builder'; 
-        }
-        else if (roles['miner'] < stage[stageNo].roles['miner']) {
-            roleName = 'miner';
         }
         else { return; }
         
