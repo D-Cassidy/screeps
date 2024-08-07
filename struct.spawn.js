@@ -56,6 +56,8 @@ let structSpawn = {
     getBody: function(spawn, role) {
         let energyAvailable = spawn.room.energyAvailable;
         let bodyTemplate = stage[spawn.memory.stage].bodyTemplate[role] || stage[spawn.memory.stage].bodyTemplate['all'];
+        // special case for miner role
+        if (role == 'miner') {return bodyTemplate};
         let bodyCost = this.calculateBodyCost(bodyTemplate);
 
         let body =[];
