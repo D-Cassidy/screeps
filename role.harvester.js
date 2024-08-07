@@ -2,9 +2,6 @@ const utility = require('./role.functions');
 
 let roleHarvester = {
 
-    // TODO:
-    // - Prioritize transferring to extensions and spawns, then towers
-
     run: function(creep) {
         let working = creep.memory.working;
 
@@ -29,6 +26,16 @@ let roleHarvester = {
                 || struct.structureType == STRUCTURE_TOWER)
                 && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
             );
+
+            // if there's nothing to transfer to, go refill energy
+            if (transferrableStructures.length <= 0 && creep.store.getFreeCapacity <=0) {
+                creep.moveTo(Game.spawns[creep.memory.home]);
+            }
+            else if (transferrableStructures.length <= 0) {
+                creep.memory.working = false;
+            }
+
+            // put energy in structures
             let target = creep.pos.findClosestByPath(transferrableStructures);
             if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
