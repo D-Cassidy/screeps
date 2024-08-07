@@ -40,7 +40,7 @@ let stages = [
 
         // Conditions for next stage: RCL 3 && 10 Extensions && 1 Tower
         checkStage: function(spawn) {
-            let structs = spawn.room.find(FIND_MY_STRUCTURES); 
+            let structs = spawn.room.find(FIND_STRUCTURES); 
             if (spawn.room.controller.level >= 3
                 && structs.filter((struct) =>
                     struct.structureType == STRUCTURE_EXTENSION).length >= 10
