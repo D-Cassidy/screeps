@@ -28,7 +28,7 @@ let roleHarvester = {
             );
 
             // if there's nothing to transfer to, go refill energy
-            if (transferrableStructures.length <= 0 && creep.store.getFreeCapacity <=0) {
+            if (transferrableStructures.length <= 0 && creep.store.getFreeCapacity(RESOURCE_ENERGY) <=0) {
                 creep.moveTo(Game.spawns[creep.memory.home]);
             }
             else if (transferrableStructures.length <= 0) {
