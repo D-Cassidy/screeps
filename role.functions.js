@@ -11,7 +11,10 @@ let roleFunctions = {
             let target = creep.room.find(FIND_STRUCTURES).filter((s) => 
                 s.structureType == STRUCTURE_CONTAINER).sort((s1, s2) => 
                     s2.store.getUsedCapacity(RESOURCE_ENERGY) - s1.store.getUsedCapacity(RESOURCE_ENERGY))[0];
-            if (creep.withdraw(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+            if (creep.withdraw(target, RESOURCE_ENERGY) == OK) {
+                creep.memory.working = true;
+            }
+            else {
                 creep.moveTo(target);
             }
             return;
