@@ -8,7 +8,7 @@ let structSpawn = {
         stage[stageNo].checkStage(spawn);
 
         // only try to run on certain ticks, so creep lives are more evenly spaced
-        let numCreeps = stage[stageNo].roles['harvster']
+        let numCreeps = stage[stageNo].roles['harvester']
                         + stage[stageNo].roles['upgrader']
                         + stage[stageNo].roles['builder']
                         + stage[stageNo].roles['miner'];
