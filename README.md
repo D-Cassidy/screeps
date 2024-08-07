@@ -4,6 +4,9 @@
 
 This repo is linked to my account named "Whimsiccal" on [screeps.com](https://screeps.com).  
 
+Please excuse the poor file structure, screeps does not natively support directories for file
+management.
+
 Screeps is an MMO sandbox game for programmers where each player manages their own screeps colony 
 through JavaScript code a single persistent world shared by all the players.  
 
