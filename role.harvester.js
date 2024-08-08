@@ -10,7 +10,7 @@ let roleHarvester = {
             if (creep.store.getFreeCapacity(RESOURCE_ENERGY) <= 0) {
                 creep.memory.working = true;
             }
-            else { utility.harvest(creep); }
+            else { utility.harvest(creep, {role: 'harvester'}); }
         }
 
         // If working == true, get to work
