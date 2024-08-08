@@ -30,9 +30,8 @@ let roleFunctions = {
         if (containers.length > 0) {
             target = creep.room.find(FIND_STRUCTURES).filter((s) => 
                 s.structureType == STRUCTURE_CONTAINER).sort((s1, s2) => 
-                    s2.store.getUsedCapacity(RESOURCE_ENERGY) - s1.store.getUsedCapacity(RESOURCE_ENERGY))[0];
+                    s2.store.getUsedCapacity(RESOURCE_ENERGY) - s1.store.getUsedCapacity(RESOURCE_ENERGY));
         }
-
         return target;
     },
 
@@ -45,7 +44,7 @@ let roleFunctions = {
 
         let target = [];
         if (storage.length > 0) {
-            target = storage[0];
+            target = storage;
         }
 
         return target;
@@ -55,6 +54,7 @@ let roleFunctions = {
         if (opts.struct == 'container') {
             let container = this.findContainer(creep);
             if (container.length > 0) {
+                container = container[0];
                 if (creep.withdraw(container, RESOURCE_ENERGY) == OK) {creep.memory.working = true;}
                 else {creep.moveTo(container);}
                 return OK;
@@ -63,6 +63,7 @@ let roleFunctions = {
         else if (opts.struct == 'storage') {
             let storage = this.findStorage(creep);
             if (storage.length > 0) {
+                storage = storage[0];
                 if (creep.withdraw(storage, RESOURCE_ENERGY) == OK) {creep.memory.working = true;}
                 else {creep.moveTo(storage);}
                 return OK;
