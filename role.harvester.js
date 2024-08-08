@@ -23,7 +23,7 @@ let roleHarvester = {
 
             for (let i=0; i<transferPriority.length; i++) {
             // find structures that are either extensions or spawns and have space for more energy
-                let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) =>
+                var transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) =>
                     (struct.structureType == transferPriority[i]
                     && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
                 ));
