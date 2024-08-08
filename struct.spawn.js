@@ -53,7 +53,7 @@ let structSpawn = {
     },
 
     getCreepName: function(role) {
-        return (`DRONE-${role[0].toUpperCase()}${Math.floor(Math.random(1000))}`);
+        return (`DRONE-${role[0].toUpperCase()}${Math.floor(Math.random()*10000)}`);
     },
 
     getBody: function(spawn, role) {
