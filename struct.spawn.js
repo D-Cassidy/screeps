@@ -11,7 +11,10 @@ let structSpawn = {
         let numCreeps = stage[stageNo].roles['harvester']
                         + stage[stageNo].roles['upgrader']
                         + stage[stageNo].roles['builder']
-                        + stage[stageNo].roles['miner'];
+                        + stage[stageNo].roles['miner']
+                        + 1;
+        console.log('Every ' + (Math.floor(1500/numCreeps)))
+        console.log(Game.time % (Math.floor(1500/numCreeps)))
         if (Game.time % (Math.floor(1500/numCreeps)) > 10) {
             return;
         }
@@ -50,7 +53,7 @@ let structSpawn = {
     },
 
     getCreepName: function(role) {
-        return (`DRONE-${role[0].toUpperCase()}${Game.time%1000}`);
+        return (`DRONE-${role[0].toUpperCase()}${Math.floor(Math.random(1000))}`);
     },
 
     getBody: function(spawn, role) {

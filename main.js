@@ -9,8 +9,9 @@ const stage = require('stages');
 const structTower = require('struct.tower');
 
 // TODO:
-// - better source choosing behavior
-// - overflow cost bodies, use full capacity of spawn
+// - stage 3 checklevel function
+// - stage 4 description
+// - remote mining starting at stage where storage completes
 
 module.exports.loop = function () {
     // mem check

@@ -6,7 +6,6 @@ let roleMiner = {
         // if creep is not standing on a continer, move to one.
         if (creep.pos.lookFor(LOOK_STRUCTURES).filter((s) => s.structureType == STRUCTURE_CONTAINER).length <= 0) {
             let containers = creep.room.find(FIND_STRUCTURES).filter((s) => s.structureType == STRUCTURE_CONTAINER && s.pos.lookFor(LOOK_CREEPS).length <= 0);
-            console.log(containers);
             creep.moveTo(creep.pos.findClosestByPath(containers));
         }    
 
