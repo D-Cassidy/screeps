@@ -10,7 +10,16 @@ let roleHarvester = {
             if (creep.store.getFreeCapacity(RESOURCE_ENERGY) <= 0) {
                 creep.memory.working = true;
             }
-            else { utility.harvest(creep, {role: 'harvester'}); }
+            else { 
+                // prioritize getting energy from storage if extensions or spawns need energy
+                let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((s) =>
+                    (s.structureType == STRUCTURE_EXTENSION
+                    || s.structureType == STRUCTURE_SPAWN
+                    && s.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+                ));
+                if (transferrableStructures.length > 0) {utility.harvest(creep)}
+                else {utility.harvest(creep, {role: 'harvester'});}
+            }
         }
 
         // If working == true, get to work
