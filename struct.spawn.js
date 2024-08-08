@@ -8,14 +8,10 @@ let structSpawn = {
         stage[stageNo].checkStage(spawn);
 
         // only try to run on certain ticks, so creep lives are more evenly spaced
-        let numCreeps = stage[stageNo].roles['harvester']
-                        + stage[stageNo].roles['upgrader']
-                        + stage[stageNo].roles['builder']
-                        + stage[stageNo].roles['miner']
-                        + 1;
-        console.log('Every ' + (Math.floor(1500/numCreeps)))
-        console.log(Game.time % (Math.floor(1500/numCreeps)))
-        if (Game.time % (Math.floor(1500/numCreeps)) > 10) {
+        let spawnDelay = 150;
+        console.log('Every: ' + spawnDelay);
+        console.log(Game.time % spawnDelay);
+        if ((Game.time % spawnDelay) > 10) {
             return;
         }
 
