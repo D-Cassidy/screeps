@@ -58,7 +58,7 @@ let stages = [
     {
         roles: {
             'miner':2,
-            'harvester':1,
+            'harvester':2,
             'upgrader':1,
             'builder':2
         },
