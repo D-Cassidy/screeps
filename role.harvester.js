@@ -27,6 +27,10 @@ let roleHarvester = {
                 || struct.structureType == STRUCTURE_STORAGE)
                 && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
             );
+            let transferPriority = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_TOWER, STRUCTURE_STORAGE];
+            transferrableStructures.sort((s1, s2) => {
+                return transferPriority.indexOf(s1.structureType) - transferPriority.indexOf(s2.structureType);
+            });
 
             // if there's nothing to transfer to, go refill energy
             if (transferrableStructures.length <= 0 && creep.store.getFreeCapacity(RESOURCE_ENERGY) <=0) {
