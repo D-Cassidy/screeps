@@ -23,7 +23,8 @@ let roleHarvester = {
             let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) =>
                 (struct.structureType == STRUCTURE_EXTENSION
                 || struct.structureType == STRUCTURE_SPAWN
-                || struct.structureType == STRUCTURE_TOWER)
+                || struct.structureType == STRUCTURE_TOWER
+                || struct.structureType == STRUCTURE_STORAGE)
                 && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
             );
 
