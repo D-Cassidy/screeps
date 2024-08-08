@@ -18,19 +18,17 @@ let roleHarvester = {
             if (creep.store.getUsedCapacity(RESOURCE_ENERGY) <= 0) {
                 creep.memory.working = false;
             }
-
-            // find structures that are either extensions or spawns and have space for more energy
-            let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) =>
-                (struct.structureType == STRUCTURE_EXTENSION
-                || struct.structureType == STRUCTURE_SPAWN
-                || struct.structureType == STRUCTURE_TOWER
-                || struct.structureType == STRUCTURE_STORAGE)
-                && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
-            );
+            
             let transferPriority = [STRUCTURE_EXTENSION, STRUCTURE_SPAWN, STRUCTURE_TOWER, STRUCTURE_STORAGE];
-            transferrableStructures.sort((s1, s2) => {
-                return transferPriority.indexOf(s1.structureType) - transferPriority.indexOf(s2.structureType);
-            });
+
+            for (let i=0; i<transferPriority.length; i++) {
+            // find structures that are either extensions or spawns and have space for more energy
+                let transferrableStructures = creep.room.find(FIND_MY_STRUCTURES).filter((struct) =>
+                    (struct.structureType == transferPriority[i]
+                    && struct.store.getFreeCapacity(RESOURCE_ENERGY) > 0
+                ));
+                if (transferrableStructures.length > 0) {break;}
+            }
 
             // if there's nothing to transfer to, go refill energy
             if (transferrableStructures.length <= 0 && creep.store.getFreeCapacity(RESOURCE_ENERGY) <=0) {
