@@ -106,7 +106,7 @@ let stages = [
             let structs = spawn.room.find(FIND_STRUCTURES);
             if (spawn.room.controller.level >= 4
                 && structs.filter((s) => 
-                    s.structureType == STRUCTURE_EXTENSION).length >= 40
+                    s.structureType == STRUCTURE_EXTENSION).length >= 30
                 && structs.filter((s) => 
                     s.structureType == STRUCTURE_TOWER).length >= 2
                 && structs.filter((s) => 
