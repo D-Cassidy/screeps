@@ -69,9 +69,87 @@ let stages = [
             'all': [WORK, CARRY, MOVE]
         },
 
-        // temp
+        checkStage: function(spawn) {
+            let structs = spawn.room.find(FIND_STRUCTURES);
+            if (spawn.room.controller.level >= 4
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_EXTENSION).length >= 20
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_TOWER).length >= 1
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_CONTAINER).length >= 2
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_STORAGE >= 1)
+            ) {
+                spawn.memory.stage = spawn.memory.stage+1;
+            }
+        }
+    },
+
+    // stage 4
+    {
+        roles: {
+            'miner':2,
+            'harvester':2,
+            'upgrader':1,
+            'builder':2,
+            'remote-harvester':1
+        },
+
+        bodyTemplate: {
+            'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE],
+            'harvester': [CARRY, CARRY, MOVE],
+            'all': [WORK, CARRY, MOVE]
+        },
+
+        checkStage: function(spawn) {
+            let structs = spawn.room.find(FIND_STRUCTURES);
+            if (spawn.room.controller.level >= 4
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_EXTENSION).length >= 40
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_TOWER).length >= 2
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_CONTAINER).length >= 2
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_STORAGE >= 1)
+            ) {
+                spawn.memory.stage = spawn.memory.stage+1;
+            }
+        }
+    },
+
+    // stage 5
+    {
+        roles: {
+            'miner': 2,
+            'harvester': 1,
+            'upgrader': 1,
+            'builder': 1,
+            'remote-harvester': 1
+        },
+
+        bodyTemplate: {
+            'miner': [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE],
+            'harvester': [CARRY, CARRY, MOVE],
+            'all': [WORK, CARRY, MOVE]
+        }, 
+
         checkStage: function(spawn) {
             return;
+            let structs = spawn.room.find(FIND_STRUCTURES);
+            if (spawn.room.controller.level >= 4
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_EXTENSION).length >= 40
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_TOWER).length >= 2
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_CONTAINER).length >= 2
+                && structs.filter((s) => 
+                    s.structureType == STRUCTURE_STORAGE >= 1)
+            ) {
+                spawn.memory.stage = spawn.memory.stage+1;
+            }
         }
     }
 ];
