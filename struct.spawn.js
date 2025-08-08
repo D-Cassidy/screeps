@@ -9,7 +9,12 @@ let structSpawn = {
         stage[stageNo].checkStage(spawn);
         
         // Only try to run on certain ticks, so creep lives are more evenly spaced
-        let spawnDelay = 150;
+        const creepLifespan = 1500; // ticks
+        // Divide creep lifespn by number of active creeps for optimal spacing
+        let numCreeps = Object.values(stage[stageNo].roles).reduce( (total, role) => total + role);
+        let spawnDelay = Math.floor(creepLifespan / numCreeps);
+
+        // Display countdown until next spawn
         if ((Game.time % spawnDelay) > 10) {
             if ((spawnDelay - (Game.time % spawnDelay)) % 10 == 0) {
                 console.log(`T-${(spawnDelay - (Game.time % spawnDelay))} until ${spawn.name} next spawn...`);
@@ -18,20 +23,12 @@ let structSpawn = {
         }
         else if ((Game.time % spawnDelay) == 10) {console.log(`Running ${spawn.name} spawning logic...`)}
 
-        // check which creeps need spawning
+        // Check which creeps need spawning
         let roleName = '';
-        if (roles['harvester'] < stage[stageNo].roles['harvester']) { 
-            roleName = 'harvester'; 
-            }
-        else if (roles['miner'] < stage[stageNo].roles['miner']) {
-            roleName = 'miner';
-        }
-        else if (roles['upgrader'] < stage[stageNo].roles['upgrader']) { 
-            roleName = 'upgrader'; 
-        }
-        else if (roles['builder'] < stage[stageNo].roles['builder']) { 
-            roleName = 'builder'; 
-        }
+        if (roles['harvester'] < stage[stageNo].roles['harvester']) { roleName = 'harvester'; }
+        else if (roles['miner'] < stage[stageNo].roles['miner']) { roleName = 'miner'; }
+        else if (roles['upgrader'] < stage[stageNo].roles['upgrader']) { roleName = 'upgrader'; }
+        else if (roles['builder'] < stage[stageNo].roles['builder']) { roleName = 'builder'; }
         else { return; }
         
         // Spawn creeps
