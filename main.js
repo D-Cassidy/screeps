@@ -51,6 +51,43 @@ module.exports.loop = function () {
         }
     }
 
+    // Room behavior
+    for (let roomName in Game.rooms) {
+        let room = Game.rooms[roomName]
+        if (room.controller._my) {
+            
+            // Room memory check 
+            if (!room.memory) { room.memory = {}; }
+            if (!room.memory.builtRoads) { room.memory.builtRoads = false; }
+            if (!room.memory.toBuild) { room.memory.toBuild = {}; }
+            if (!room.memory.toBuild.STRUCTURE_ROAD) { room.memory.toBuild.STRUCTURE_ROAD = []; }
+            
+            // Save paths in memory to build roads on
+            if (room.memory.builtRoads == false) {
+                let spawn = room.find(FIND_MY_STRUCTURES).filter( (s) => s.structureType == STRUCTURE_SPAWN)[0];
+                let sources = room.find(FIND_SOURCES);
+
+                for (let sourceName in sources) {
+                    let source = sources[sourceName];
+                    let path = spawn.pos.findPathTo(source);
+                    
+                    room.memory.toBuild.STRUCTURE_ROAD = room.memory.toBuild.STRUCTURE_ROAD.concat(path);
+                }
+
+                let controllerPath = spawn.pos.findPathTo(room.controller.pos);
+                room.memory.toBuild.STRUCTURE_ROAD = room.memory.toBuild.STRUCTURE_ROAD.concat(controllerPath);
+
+                room.memory.builtRoads = true;
+            }
+
+            // Build stuff in toBuild 
+            for (let posId in room.memory.toBuild.STRUCTURE_ROAD) {  
+                let pos = room.memory.toBuild.STRUCTURE_ROAD.pop();
+                room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
+            }
+        }
+    }
+
     // Struct behavior
     for (let structId in Game.structures) {
         let struct = Game.structures[structId];
