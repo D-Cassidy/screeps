@@ -9,8 +9,6 @@ const structTower = require('struct.tower');
 
 // TODO:
 // - stage 3 checklevel function
-// - stage 4 description
-// - remote mining starting at stage where storage completes
 
 module.exports.loop = function () {
     // Memory check
