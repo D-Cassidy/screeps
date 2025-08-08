@@ -17,7 +17,7 @@ let structSpawn = {
         // Display countdown until next spawn
         if ((Game.time % spawnDelay) > 10) {
             if ((spawnDelay - (Game.time % spawnDelay)) % 10 == 0) {
-                console.log(`T-${(spawnDelay - (Game.time % spawnDelay))} until ${spawn.name} next spawn...`);
+                console.log(`T-${(spawnDelay - (Game.time % spawnDelay))} ticks until ${spawn.name} next spawn...`);
             }
             return;
         }
