@@ -46,7 +46,7 @@ let structSpawn = {
 
         // Error logging
         if (err == OK) {
-            console.log(`Spawning ${creepName} with [${body}] body and ${roleName} role...`)
+            console.log(`Spawning ${creepName} with ${roleName} role and [${body}] body ...`)
             roles[roleName] = roles[roleName]+1 || 1;
         }
         else if (err == ERR_BUSY) {}
