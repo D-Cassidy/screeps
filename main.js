@@ -71,7 +71,11 @@ module.exports.loop = function () {
                 for (let sourceName in sources) {
                     let source = sources[sourceName];
                     let path = spawn.pos.findPathTo(source);
-                    path.pop() // pos of target object
+                    path.pop(); // pos of target object
+
+                    // Build container close to rather than road
+                    let containerPos = path.pop();
+                    room.createConstructionSite(containerPos.x, containerPos.y, STRUCTURE_CONTAINER);
                     
                     room.memory.toBuild.STRUCTURE_ROAD = room.memory.toBuild.STRUCTURE_ROAD.concat(path);
                 }
