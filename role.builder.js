@@ -19,6 +19,11 @@ let roleBuilder = {
             if (creep.store.getUsedCapacity(RESOURCE_ENERGY) <= 0) {
                 creep.memory.working = false;
             }
+
+            // If standing next to source, make way for other creeps
+            let source = creep.pos.findClosestByRange(FIND_SOURCES);
+            let minDistance = 3;
+            if (creep.pos.getRangeTo(source.pos) < minDistance) { creep.moveTo(Game.spawns[creep.memory.home]); }
             
             // If constructionSites.length == 0, run upgrader logic
             let constructionSites = creep.room.find(FIND_CONSTRUCTION_SITES);
