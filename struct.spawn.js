@@ -51,7 +51,7 @@ let structSpawn = {
         }
         else if (err == ERR_BUSY) {}
         else if (err == ERR_NOT_ENOUGH_ENERGY) {console.log("ERROR: SPAWN FAILED NOT ENOUGH ENERGY")}
-        else {console.log(`ERROR: SPAWN FAILED CODE ${err}`)}
+        else {console.log(`ERROR: SPAWN FAILED CODE ${err} WHILE CREATING CREEP WITH NAME ${creepName}, ROLE ${roleName}, BODY ${body}`)}
     },
     
     getCreepName: function(role) {
