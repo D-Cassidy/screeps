@@ -12,7 +12,7 @@ let structSpawn = {
         const creepLifespan = 1500; // ticks
         // Divide creep lifespn by number of active creeps for optimal spacing
         let numCreeps = Object.values(stage[stageNo].roles).reduce( (total, role) => total + role);
-        let spawnDelay = Math.floor(creepLifespan / numCreeps);
+        let spawnDelay = Math.floor(creepLifespan / (numCreeps+1));
 
         // Display countdown until next spawn
         if ((Game.time % spawnDelay) > 10) {
