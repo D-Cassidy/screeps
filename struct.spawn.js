@@ -43,6 +43,8 @@ let structSpawn = {
                 home: spawn.name
             }}
         );
+
+        // Error logging
         if (err == OK) {
             console.log(`Spawning ${creepName} with [${body}] body and ${roleName} role...`)
             roles[roleName] = roles[roleName]+1 || 1;
@@ -51,7 +53,7 @@ let structSpawn = {
         else if (err == ERR_NOT_ENOUGH_ENERGY) {console.log("ERROR: SPAWN FAILED NOT ENOUGH ENERGY")}
         else {console.log(`ERROR: SPAWN FAILED CODE ${err}`)}
     },
-
+    
     getCreepName: function(role) {
         return (`DRONE-${role[0].toUpperCase()}${Math.floor(Math.random()*10000)}`);
     },
@@ -59,27 +61,25 @@ let structSpawn = {
     getBody: function(spawn, role) {
         let energyAvailable = spawn.room.energyAvailable;
         let bodyTemplate = stage[spawn.memory.stage].bodyTemplate[role] || stage[spawn.memory.stage].bodyTemplate['all'];
-        // special case for miner role
-        if (role == 'miner') {return bodyTemplate};
-        let bodyCost = this.calculateBodyCost(bodyTemplate);
 
+        // Special case for miner role
+        if (role == 'miner') { return bodyTemplate };
+        
+        // Create largest creep body possible with available energy
+        let bodyCost = this.calculateBodyCost(bodyTemplate);
         let body =[];
         let n = Math.floor(energyAvailable / bodyCost);
-        for (let i=0; i<n; i++) {
-            body = body.concat(bodyTemplate);
-        }
+        for (let i=0; i<n; i++) { body = body.concat(bodyTemplate); }
 
         return body;
     },
 
     calculateBodyCost: function(body) {
-        costs = {'work':100, 'move':50, 'carry':50};
+        const costs = {'work':100, 'move':50, 'carry':50};
 
         let len = body.length
         let cost = 0;
-        for (let i=0; i<len; i++) {
-            cost = cost + costs[body[i]];
-        }
+        for (let i=0; i<len; i++) { cost = cost + costs[body[i]]; }
 
         return cost;
     }
