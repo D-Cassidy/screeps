@@ -7,7 +7,7 @@ let stages = [
         roles: {
             'harvester':2,
             'upgrader':2,
-            'builder':4,
+            'builder':6,
             'miner': 0
         },
 
