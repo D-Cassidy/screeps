@@ -34,7 +34,13 @@ let roleBuilder = {
 
             // If contructionSites.length >= 1, build construction site
             else {
-                let target = creep.pos.findClosestByPath(constructionSites); 
+                // Prioritize non-road structures
+                let prioritySites = Object.values(constructionSites).filter( (s) => s.structureType != STRUCTURE_ROAD );
+                
+                // Build closest priority sites, otherwise build closest site
+                let target;
+                if (prioritySites.length >= 0) { target = creep.pos.findClosestByPath(prioritySites); }
+                else { target = creep.pos.findCloesetByPath(constructionSites)}
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
