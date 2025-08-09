@@ -7,7 +7,7 @@ let structSpawn = {
         let roles = spawn.memory.roles;
         let stageNo = spawn.memory.stage || 1;
         stage[stageNo].checkStage(spawn);
-        
+
         // Only try to run on certain ticks, so creep lives are more evenly spaced
         const creepLifespan = 1500; // ticks
         // Divide creep lifespn by number of active creeps for optimal spacing
@@ -29,7 +29,10 @@ let structSpawn = {
         else if (roles['miner'] < stage[stageNo].roles['miner']) { roleName = 'miner'; }
         else if (roles['upgrader'] < stage[stageNo].roles['upgrader']) { roleName = 'upgrader'; }
         else if (roles['builder'] < stage[stageNo].roles['builder']) { roleName = 'builder'; }
-        else { return; }
+        else { 
+            if ((Game.time % spawnDelay == 10)) { console.log(`${spawn.name} does not need to spawn any creeps`); }
+            return; 
+        }
         
         // Spawn creeps
         let creepName = this.getCreepName(roleName);
