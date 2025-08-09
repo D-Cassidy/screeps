@@ -20,7 +20,7 @@ directly link a github repository (like I have done here) which the website will
 a push is made to the repo.  
 
 If you would like to test my code in game for yourself, you can download the official client on steam, open the 
-local folder containing your scripts with a terminal and run
+local folder containing your scripts with a terminal and run:
 ```bash
 git clone https://github.com/D-Cassidy/screeps 
 ```
