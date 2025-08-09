@@ -39,8 +39,8 @@ let roleBuilder = {
                 
                 // Build closest priority sites, otherwise build closest site
                 let target;
-                if (prioritySites.length >= 0) { target = creep.pos.findClosestByPath(prioritySites); }
-                else { target = creep.pos.findCloesetByPath(constructionSites)}
+                if (prioritySites.length > 0) { target = creep.pos.findClosestByPath(prioritySites); }
+                else { target = creep.pos.findClosestByPath(constructionSites)}
                 if (creep.build(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
