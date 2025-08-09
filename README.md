@@ -10,8 +10,9 @@ management AFAIK.
 Screeps is an MMO sandbox game for programmers where each player manages their own screeps colony 
 through JavaScript code a single persistent world shared by all the players.  
 
-If you are familiar with gaming it is like an RTS game but due to your code running even while
-you aren't actively watching your screeps they can react to events without your presence.  
+If you are familiar with gaming it's like an RTS game but due to the server persisting even
+while you don't have the client open they can react to events in the game world based on what your 
+code instructs them to do.
 
 ### Installation
 
