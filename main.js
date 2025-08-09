@@ -9,6 +9,9 @@ const structTower = require('struct.tower');
 
 // TODO:
 // - stage 3 checklevel function
+// - automatic extension placement 
+// - predefined 2 tower + storage placement (?)
+//  - will need to place flags and make roads avoid them on initial spawner placement
 
 module.exports.loop = function () {
     // Memory check
