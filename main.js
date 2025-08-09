@@ -63,7 +63,7 @@ module.exports.loop = function () {
             if (!room.memory) { room.memory = {}; }
             if (!room.memory.builtRoads) { room.memory.builtRoads = false; }
             if (!room.memory.toBuild) { room.memory.toBuild = {}; }
-            if (!room.memory.toBuild.STRUCTURE_ROAD) { room.memory.toBuild.STRUCTURE_ROAD = []; }
+            if (!room.memory.toBuild.roads) { room.memory.toBuild.roads = []; }
             
             // Save paths in memory to build roads on
             if (room.memory.builtRoads == false) {
@@ -80,13 +80,13 @@ module.exports.loop = function () {
                     let containerPos = path.pop();
                     room.createConstructionSite(containerPos.x, containerPos.y, STRUCTURE_CONTAINER);
                     
-                    room.memory.toBuild.STRUCTURE_ROAD = room.memory.toBuild.STRUCTURE_ROAD.concat(path);
+                    room.memory.toBuild.roads = room.memory.toBuild.roads.concat(path);
                 }
                 
                 // Road to controller
                 let controllerPath = spawn.pos.findPathTo(room.controller.pos);
                 controllerPath.pop() // pos of target object
-                room.memory.toBuild.STRUCTURE_ROAD = room.memory.toBuild.STRUCTURE_ROAD.concat(controllerPath);
+                room.memory.toBuild.roads = room.memory.toBuild.roads.concat(controllerPath);
 
                 room.memory.builtRoads = true;
             }
