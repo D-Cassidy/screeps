@@ -89,7 +89,7 @@ module.exports.loop = function () {
             }
 
             // Build stuff in toBuild 
-            for (let posId in room.memory.toBuild.STRUCTURE_ROAD) {  
+            for (let _ in room.memory.toBuild.STRUCTURE_ROAD) {  
                 let pos = room.memory.toBuild.STRUCTURE_ROAD.pop();
                 room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
             }
