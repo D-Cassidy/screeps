@@ -1,17 +1,18 @@
 let structTower = {
 
     run: function(tower) {
-        // attack closest hostile if there's one in the room
+        // Attack closest hostile if there's one in the room
         let hostiles = tower.room.find(FIND_HOSTILE_CREEPS);
         if (hostiles.length > 0) {
             tower.attack(tower.pos.findClosestByRange(hostiles));
             return;
         }
 
-        // then, repair structures
+        // Then, repair structures prioritizing lowest hitpoint structs
         let repairableStructs = tower.room.find(FIND_STRUCTURES).filter((s) => s.hits < s.hitsMax);
+        let orderedRepairableStructs = repairableStructs.sort((a, b) => a.hits - b.hits);
         if (repairableStructs.length > 0) {
-            tower.repair(repairableStructs[0]);
+            tower.repair(orderedRepairableStructs[0]);
             return;
         }
     }
