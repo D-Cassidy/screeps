@@ -61,6 +61,7 @@ module.exports.loop = function () {
     for (let roomName in Game.rooms) {
         let room = Game.rooms[roomName]
         if (room.controller._my) {
+            let spawn = room.find(FIND_MY_STRUCTURES).filter( (s) => s.structureType == STRUCTURE_SPAWN)[0];
             
             // Room memory check 
             if (!room.memory) { room.memory = {}; }
@@ -70,7 +71,6 @@ module.exports.loop = function () {
             
             // Save paths in memory to build roads on
             if (room.memory.builtRoads == false) {
-                let spawn = room.find(FIND_MY_STRUCTURES).filter( (s) => s.structureType == STRUCTURE_SPAWN)[0];
                 let sources = room.find(FIND_SOURCES);
 
                 // Roads around spawner
