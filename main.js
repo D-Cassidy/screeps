@@ -72,6 +72,14 @@ module.exports.loop = function () {
             if (room.memory.builtRoads == false) {
                 let spawn = room.find(FIND_MY_STRUCTURES).filter( (s) => s.structureType == STRUCTURE_SPAWN)[0];
                 let sources = room.find(FIND_SOURCES);
+
+                // Roads around spawner
+                for (let i = -1; i <= 1; i++) {
+                    for (let j = -1; j <= 1; j++) {
+                        let roadPos = new RoomPosition(spawn.pos.x + i, spawn.pos.y + j, room.name);
+                        room.memory.toBuild.roads.push(roadPos);
+                    }
+                }
                 
                 // Roads to sources
                 for (let sourceName in sources) {
