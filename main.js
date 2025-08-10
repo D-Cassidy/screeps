@@ -11,6 +11,7 @@ const structTower = require('struct.tower');
 // - stage 3 checklevel function
 // - place roads in every tile adjacent to spawn as part of road placement
 // - consider waiting for tower to be constructed to place roads (?)
+// - tower prioritize repairing structures with least health
 // - automatic extension placement 
 // - predefined 2 tower + storage placement (?)
 //  - will need to place flags and make roads avoid them on initial spawner placement
@@ -94,8 +95,8 @@ module.exports.loop = function () {
             }
 
             // Build stuff in toBuild 
-            for (let _ in room.memory.toBuild.STRUCTURE_ROAD) {  
-                let pos = room.memory.toBuild.STRUCTURE_ROAD.pop();
+            for (let _ in room.memory.toBuild.roads) {  
+                let pos = room.memory.toBuild.roads.pop();
                 room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
             }
         }
