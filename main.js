@@ -10,11 +10,8 @@ const structRoom = require('struct.room');
 
 // TODO:
 // - stage 3 checklevel function
-// - consider waiting for tower to be constructed to place roads (?)
-// - tower prioritize repairing structures with least health
 // - automatic extension placement 
-// - predefined 2 tower + storage placement (?)
-//  - will need to place flags and make roads avoid them on initial spawner placement
+// - modify the auto builders to destroy roads in location if one is found, then set builtRoads to false
 
 module.exports.loop = function () {
 
