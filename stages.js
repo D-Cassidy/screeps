@@ -89,14 +89,11 @@ let stages = [
 
     // Stage 4
     {   
-        // TODO:
-        // Modify checkStage 
         roles: {
             'miner':2,
             'harvester':2,
             'upgrader':1,
-            'builder':2,
-            'remote-harvester':1
+            'builder':5,
         },
 
         bodyTemplate: {
@@ -105,6 +102,7 @@ let stages = [
             'all': [WORK, CARRY, MOVE]
         },
 
+        // Conditions for next stage: RCL 5 && 30 Extensions && 2 Tower && 2 Containers && 1 Storage
         checkStage: function(spawn) {
             let structs = spawn.room.find(FIND_STRUCTURES);
             if (spawn.room.controller.level >= 5
