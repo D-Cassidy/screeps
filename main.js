@@ -9,7 +9,8 @@ const structTower = require('struct.tower');
 
 // TODO:
 // - stage 3 checklevel function
-// - place roads in every tile adjacen to spawn as part of road placement
+// - place roads in every tile adjacent to spawn as part of road placement
+// - consider waiting for tower to be constructed to place roads (?)
 // - automatic extension placement 
 // - predefined 2 tower + storage placement (?)
 //  - will need to place flags and make roads avoid them on initial spawner placement
