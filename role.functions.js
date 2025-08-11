@@ -1,9 +1,14 @@
 let roleFunctions = {
 
     harvest: function(creep, opts = {}) {
-        // Check for containers first if harvester
+        // Check for containers or dropped resources first if harvester
         if (opts.role == 'harvester') {
-            if (this.withdraw(creep, {struct: 'container'}) == OK) {return;}
+            let droppedResource = creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES);
+            if (droppedResource) { 
+                if (creep.pickup(droppedResource) == ERR_NOT_IN_RANGE)
+                    creep.moveTo(droppedResource);
+            }
+            else if (this.withdraw(creep, {struct: 'container'}) == OK) {return;}
             else if (this.withdraw(creep, {struct: 'storage'}) == OK) {return;}
         }
         // Check for storage first if any other role
