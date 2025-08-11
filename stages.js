@@ -93,7 +93,7 @@ let stages = [
             'miner':2,
             'harvester':2,
             'upgrader':1,
-            'builder':3,
+            'builder':1,
         },
 
         bodyTemplate: {
