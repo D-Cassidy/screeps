@@ -10,8 +10,11 @@ const structRoom = require('struct.room');
 
 // TODO:
 // - stage 3 checklevel function
+// - make creeps pick up dropped resources
 // - automatic extension placement 
 // - modify the auto builders to destroy roads in location if one is found, then set builtRoads to false
+// - set up "bunker" auto building
+// - private server for testing
 
 module.exports.loop = function () {
     // Memory check
