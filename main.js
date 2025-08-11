@@ -14,7 +14,6 @@ const structRoom = require('struct.room');
 // - modify the auto builders to destroy roads in location if one is found, then set builtRoads to false
 
 module.exports.loop = function () {
-
     // Memory check
     if (!Memory.creeps) { Memory.creeps = {}; }
     if (!Memory.spawns) { Memory.spawns = {}; }
