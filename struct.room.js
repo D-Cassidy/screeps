@@ -1,5 +1,6 @@
-let structRoom = { 
+const infoBunker = require('info.bunker');
 
+let structRoom = { 
     run: function(room) {
         if (room.controller._my) {
             let spawn = room.find(FIND_MY_STRUCTURES).filter( (s) => s.structureType == STRUCTURE_SPAWN)[0];
@@ -7,38 +8,24 @@ let structRoom = {
             // Room memory check 
             if (!room.memory) { room.memory = {}; }
             if (!room.memory.toBuild) { room.memory.toBuild = {}; }
-
-            // Storage memory 
-            if (!room.memory.builtStorage) { room.memory.builtStorage = room.find(FIND_STRUCTURES).filter((s) => s.structureType == STRUCTURE_STORAGE).length; }
-            if (!room.memory.toBuild.storage) { room.memory.toBuild.storage = [new RoomPosition(spawn.pos.x, spawn.pos.y - 2, room.name)]; }
-
-            // Towers memory 
-            if (!room.memory.builtTowers) { room.memory.builtTowers = room.find(FIND_STRUCTURES).filter((s) => s.structureType == STRUCTURE_TOWER).length; }
-            if (!room.memory.toBuild.towers) { 
-                room.memory.toBuild.towers = [
-                    new RoomPosition(spawn.pos.x + 2, spawn.pos.y, room.name), 
-                    new RoomPosition(spawn.pos.x - 2, spawn.pos.y, room.name)
-                ];
-            }
+            if (!room.memory.bunker) { room.memory.bunker = {}; }
+            if (!room.memory.bunker.bunkerStart) { room.memory.bunker.bunkerStart = new RoomPosition((spawn.pos.x + infoBunker.coordsFromInitialSpawn.dx), 
+                                                                                       (spawn.pos.y + infoBunker.coordsFromInitialSpawn.dy), 
+                                                                                       room.name); }
+            
+            // Bunker memory 
+            if (!room.memory.bunker.roads) { room.memory.bunker.roads = infoBunker.road; }
+            if (!room.memory.bunker.extensions) { room.memory.bunker.extensions = infoBunker.extension; }
+            if (!room.memory.bunker.tower) { room.memory.bunker.tower = infoBunker.tower; }
+            if (!room.memory.bunker.storage) { room.memory.bunker.storage = infoBunker.storage; }
 
             // Roads memory
-            if (!room.memory.builtRoads) { room.memory.builtRoads = false; }
+            if (!room.memory.repathRoadsFlag) { room.memory.repathRoadsFlag = false; }
             if (!room.memory.toBuild.roads) { room.memory.toBuild.roads = []; }
             
-            // Build extensions 
-            // - auto build extensions
-            
             // Find road built sites and store in memory
-            if (room.memory.builtRoads == false) {
+            if (room.memory.repathRoadsFlag == false) {
                 let sources = room.find(FIND_SOURCES);
-
-                // Roads around spawner
-                for (let i = -1; i <= 1; i++) {
-                    for (let j = -1; j <= 1; j++) {
-                        let roadPos = new RoomPosition(spawn.pos.x + i, spawn.pos.y + j, room.name);
-                        room.memory.toBuild.roads.push(roadPos);
-                    }
-                }
                 
                 // Roads to sources
                 for (let sourceName in sources) {
@@ -58,43 +45,58 @@ let structRoom = {
                 controllerPath.pop() // pos of target object
                 room.memory.toBuild.roads = room.memory.toBuild.roads.concat(controllerPath);
 
-                room.memory.builtRoads = true;
+                room.memory.repathRoadsFlag = true;
             }
-
-            // Build storage in toBuild 
-            if (room.memory.builtStorage < 1) {
-                for (let storagePosId in room.memory.toBuild.storage) {
-                    let storagePos = room.memory.toBuild.storage[storagePosId];
-                    let pos = new RoomPosition(storagePos.x, storagePos.y, room.name);
-                    if (pos.lookFor(LOOK_STRUCTURES).length != 0 || pos.lookFor(LOOK_CONSTRUCTION_SITES).length != 0 || room.createConstructionSite(pos.x, pos.y, STRUCTURE_STORAGE) == OK) {
-                        let index = room.memory.toBuild.storage.indexOf(storagePos);
-                        room.memory.toBuild.storage.splice(index, 1);
-                        room.memory.builtStorage++;
-                    }
-                }
-            }
-
-            // Build towers in toBuild
-            if (room.memory.builtTowers < 2) {
-                for (let towerPosId in room.memory.toBuild.towers) {
-                    let towerPos = room.memory.toBuild.towers[towerPosId];
-                    let pos = new RoomPosition(towerPos.x, towerPos.y, room.name)
-                    if (pos.lookFor(LOOK_STRUCTURES).length != 0 || pos.lookFor(LOOK_CONSTRUCTION_SITES).length != 0 || room.createConstructionSite(pos.x, pos.y, STRUCTURE_TOWER) == OK) {
-                        let index = room.memory.toBuild.towers.indexOf(towerPos);
-                        room.memory.toBuild.towers.splice(index, 1);
-                        room.memory.builtTowers++;
-                    }
-                }
-            }
-
-            // Build roads in toBuild 
+            
+            let bunkerPos = room.memory.bunker.bunkerStart;
+            // Build roads
+            let towerCount = room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType == STRUCTURE_TOWER }).length;
             for (let _ in room.memory.toBuild.roads) {
                 // Wait until at least 1 tower exists to build roads
-                if (room.memory.builtTowers >= 1) {
+                if (towerCount > 0) {
                     let pos = room.memory.toBuild.roads.pop();
                     room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
                 }
             }
+            for (let _ in room.memory.bunker.roads) {
+                // Wait until at least 1 tower exists to build roads 
+                if (towerCount > 0) {
+                    let pos = room.memory.bunker.roads.pop();
+                    room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_ROAD);
+                }
+            }
+
+            // Build extensions 
+            for (let _ in room.memory.bunker.extensions) {
+                let pos = room.memory.bunker.extensions.pop();
+                console.log(bunkerPos.x + pos.x, bunkerPos.y + pos.y)
+                if (room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.x, STRUCTURE_EXTENSION) != OK) {
+                    room.memory.bunker.extensions.push(pos);
+                    break;
+                }
+            }
+            
+            // Build towers
+            for (let _ in room.memory.bunker.tower) {
+                let pos = room.memory.bunker.tower.pop();
+                if (room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_TOWER) != OK) {
+                    room.memory.bunker.tower.push(pos);
+                    break;
+                }
+            }
+
+            // Build storage 
+            for (let _ in room.memory.bunker.storage) {
+                let pos = room.memory.bunker.storage.pop();
+                if (room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_STORAGE) != OK) {
+                    room.memory.bunker.storage.push(pos);
+                    break;
+                }
+            }
+
+            // Build towers 
+
+            // Build Storage
         }
     }
 };
