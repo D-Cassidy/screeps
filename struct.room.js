@@ -69,8 +69,9 @@ let structRoom = {
             // Build extensions 
             for (let _ in room.memory.bunker.extensions) {
                 let pos = room.memory.bunker.extensions.pop();
-                console.log(bunkerPos.x + pos.x, bunkerPos.y + pos.y)
-                if (room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.x, STRUCTURE_EXTENSION) != OK) {
+                let buildPos = new RoomPosition(bunkerPos.x + pos.x, bunkerPos.y + pos.y, room.name);
+                if (this.removeRoad(buildPos) == OK) { room.memory.repathRoadsFlag = false; }
+                if (room.createConstructionSite(buildPos.x, buildPos.y, STRUCTURE_EXTENSION) != OK) {
                     room.memory.bunker.extensions.push(pos);
                     break;
                 }
@@ -79,7 +80,9 @@ let structRoom = {
             // Build towers
             for (let _ in room.memory.bunker.tower) {
                 let pos = room.memory.bunker.tower.pop();
-                if (room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_TOWER) != OK) {
+                let buildPos = new RoomPosition(bunkerPos.x + pos.x, bunkerPos.y + pos.y, room.name);
+                if (this.removeRoad(buildPos) == OK) { room.memory.repathRoadsFlag = false; }
+                if (room.createConstructionSite(buildPos.x, buildPos.y, STRUCTURE_TOWER) != OK) {
                     room.memory.bunker.tower.push(pos);
                     break;
                 }
@@ -88,7 +91,9 @@ let structRoom = {
             // Build storage 
             for (let _ in room.memory.bunker.storage) {
                 let pos = room.memory.bunker.storage.pop();
-                if (room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_STORAGE) != OK) {
+                let buildPos = new RoomPosition(bunkerPos.x + pos.x, bunkerPos.y + pos.y, room.name);
+                if (this.removeRoad(buildPos) == OK) { room.memory.repathRoadsFlag = false; }
+                if (room.createConstructionSite(buildPos.x, buildPos.y, STRUCTURE_STORAGE) != OK) {
                     room.memory.bunker.storage.push(pos);
                     break;
                 }
@@ -97,6 +102,16 @@ let structRoom = {
             // Build towers 
 
             // Build Storage
+        }
+    },
+
+    removeRoad: function(pos) {
+        let structs = pos.lookFor(LOOK_STRUCTURES);
+        if (structs.length > 0) {
+            if (struct[0].structureType == STRUCTURE_ROAD){
+                struct[0].destroy();
+                return OK;
+            }
         }
     }
 };
