@@ -30,7 +30,8 @@ let structRoom = {
                 // Roads to sources
                 for (let sourceName in sources) {
                     let source = sources[sourceName];
-                    let path = spawn.pos.findPathTo(source, { ignoreCreeps: true, swampCost: 1});
+                    let path = spawn.pos.findPathTo(source, { ignoreCreeps: true, swampCost: 1, 
+                                                              avoid:room.find(FIND_CONSTRUCTION_SITES).filter((s) => s.structureType != STRUCTURE_ROAD) });
                     path.pop(); // pos of target object
 
                     // Build container close to rather than road
@@ -41,7 +42,8 @@ let structRoom = {
                 }
                 
                 // Road to controller
-                let controllerPath = spawn.pos.findPathTo(room.controller.pos, { ignoreCreeps: true, swampCost: 1});
+                let controllerPath = spawn.pos.findPathTo(room.controller.pos, { ignoreCreeps: true, swampCost: 1, 
+                                                                                 avoid:room.find(FIND_CONSTRUCTION_SITES).filter((s) => s.structureType != STRUCTURE_ROAD)});
                 controllerPath.pop() // pos of target object
                 room.memory.toBuild.roads = room.memory.toBuild.roads.concat(controllerPath);
 
@@ -51,18 +53,18 @@ let structRoom = {
             let bunkerPos = room.memory.bunker.bunkerStart;
             // Build roads
             let towerCount = room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType == STRUCTURE_TOWER }).length;
-            for (let _ in room.memory.toBuild.roads) {
-                // Wait until at least 1 tower exists to build roads
-                if (towerCount > 0) {
-                    let pos = room.memory.toBuild.roads.pop();
-                    room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
-                }
-            }
             for (let _ in room.memory.bunker.roads) {
                 // Wait until at least 1 tower exists to build roads 
                 if (towerCount > 0) {
                     let pos = room.memory.bunker.roads.pop();
                     room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_ROAD);
+                }
+            }
+            for (let _ in room.memory.toBuild.roads) {
+                // Wait until at least 1 tower exists to build roads
+                if (towerCount > 0) {
+                    let pos = room.memory.toBuild.roads.pop();
+                    room.createConstructionSite(pos.x, pos.y, STRUCTURE_ROAD);
                 }
             }
 
