@@ -14,7 +14,6 @@ let structRoom = {
                                                                                        room.name); }
             
             // Bunker memory 
-            if (!room.memory.bunker.roads) { room.memory.bunker.roads = infoBunker.road; }
             if (!room.memory.bunker.extensions) { room.memory.bunker.extensions = infoBunker.extension; }
             if (!room.memory.bunker.tower) { room.memory.bunker.tower = infoBunker.tower; }
             if (!room.memory.bunker.storage) { room.memory.bunker.storage = infoBunker.storage; }
@@ -55,13 +54,6 @@ let structRoom = {
             let bunkerPos = room.memory.bunker.bunkerStart;
             // Build roads
             let towerCount = room.find(FIND_MY_STRUCTURES, { filter: (s) => s.structureType == STRUCTURE_TOWER }).length;
-            for (let _ in room.memory.bunker.roads) {
-                // Wait until at least 1 tower exists to build roads 
-                if (towerCount > 0) {
-                    let pos = room.memory.bunker.roads.pop();
-                    room.createConstructionSite(bunkerPos.x + pos.x, bunkerPos.y + pos.y, STRUCTURE_ROAD);
-                }
-            }
             for (let _ in room.memory.toBuild.roads) {
                 // Wait until at least 1 tower exists to build roads
                 if (towerCount > 0) {
