@@ -68,6 +68,14 @@ let structRoom = {
                 let buildPos = new RoomPosition(bunkerPos.x + pos.x, bunkerPos.y + pos.y, room.name);
                 if (this.removeRoad(buildPos) == OK) { room.memory.repathRoadsFlag = false; }
                 if (room.createConstructionSite(buildPos.x, buildPos.y, STRUCTURE_EXTENSION) != OK) {
+                    let terrainAtBuildPos = buildPos.lookFor(LOOK_TERRAIN);
+                    if (terrainAtBuildPos.length && terrainAtBuildPos.structureType == STRUCTURE_WALL) {
+                        console.log(`WALL FOUND AT ${buildPos}`)
+                        break;
+                    }
+                    let structAtBuildPos = buildPos.lookFor(LOOK_STRUCTURES);
+                    let siteAtBuildPos = buildPos.lookFor(LOOK_CONSTRUCTION_SITES);
+                    if (structAtBuildPos.length || siteAtBuildPos.length) { break; }
                     room.memory.bunker.extensions.push(pos);
                     break;
                 }
@@ -79,6 +87,9 @@ let structRoom = {
                 let buildPos = new RoomPosition(bunkerPos.x + pos.x, bunkerPos.y + pos.y, room.name);
                 if (this.removeRoad(buildPos) == OK) { room.memory.repathRoadsFlag = false; }
                 if (room.createConstructionSite(buildPos.x, buildPos.y, STRUCTURE_TOWER) != OK) {
+                    let structAtBuildPos = buildPos.lookFor(LOOK_STRUCTURES);
+                    let siteAtBuildPos = buildPos.lookFor(LOOK_CONSTRUCTION_SITES);
+                    if (structAtBuildPos.length || siteAtBuildPos.length) { break; }
                     room.memory.bunker.tower.push(pos);
                     break;
                 }
@@ -90,22 +101,21 @@ let structRoom = {
                 let buildPos = new RoomPosition(bunkerPos.x + pos.x, bunkerPos.y + pos.y, room.name);
                 if (this.removeRoad(buildPos) == OK) { room.memory.repathRoadsFlag = false; }
                 if (room.createConstructionSite(buildPos.x, buildPos.y, STRUCTURE_STORAGE) != OK) {
+                    let structAtBuildPos = buildPos.lookFor(LOOK_STRUCTURES);
+                    let siteAtBuildPos = buildPos.lookFor(LOOK_CONSTRUCTION_SITES);
+                    if (structAtBuildPos.length || siteAtBuildPos.length) { break; }
                     room.memory.bunker.storage.push(pos);
                     break;
                 }
             }
-
-            // Build towers 
-
-            // Build Storage
         }
     },
 
     removeRoad: function(pos) {
         let structs = pos.lookFor(LOOK_STRUCTURES);
         if (structs.length > 0) {
-            if (struct[0].structureType == STRUCTURE_ROAD){
-                struct[0].destroy();
+            if (structs[0].structureType == STRUCTURE_ROAD){
+                structs[0].destroy();
                 return OK;
             }
         }
